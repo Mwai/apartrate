@@ -54,7 +54,9 @@ class FilmController extends Controller
         //remove the genre id from the input
         $genreId = $input['genre'];
         unset($input['genre']);
-        
+        //set the slug
+        $input['slug'] = str_slug($input['name'], '-');
+
         if ($film = Film::create($input)) {
             $film->genres()->attach($genreId);
 
