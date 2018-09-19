@@ -24,13 +24,13 @@ class FilmValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
-            'release_date' => 'required',
-            'rating' => 'required|min:1|max:5',
-            'ticket_price' => 'required',
-            'country' => 'required',
-            'photo' => 'required',
+            'name'         => 'required|string|unique',
+            'description'  => 'required|string',
+            'release_date' => 'required|date',
+            'rating'       => 'required|min:1|max:5',
+            'ticket_price' => 'required|integer',
+            'country'      => 'required|string',
+            'photo'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
