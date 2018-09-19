@@ -9,9 +9,9 @@ class Film extends Model
     protected $table = 'films';
     protected $guarded = ['id'];
 
-    public function genre()
+    public function genres()
     {
-        return $this->hasMany('App\Genre');
+        return $this->belongsToMany('App\Genre');
     }
 
     public function comments()
