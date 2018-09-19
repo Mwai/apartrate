@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Film;
+use App\Http\Requests\FilmValidationRequest;
 use Illuminate\Http\Request;
 use JWTAuth;
 
@@ -13,10 +15,15 @@ class FilmController extends Controller
     {
         $this->user = JWTAuth::parseToken()->authenticate();
     }
-    
+
     public function index()
     {
-        //
+        $films = Film::with('genres')->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data'    => $films,
+        ], 200);
     }
 
     /**
@@ -32,21 +39,23 @@ class FilmController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FilmValidationRequest $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
     }
@@ -54,7 +63,8 @@ class FilmController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -65,8 +75,9 @@ class FilmController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -77,7 +88,8 @@ class FilmController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
