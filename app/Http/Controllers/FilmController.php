@@ -56,7 +56,6 @@ class FilmController extends Controller
         unset($input['genre']);
         //set the slug
         $input['slug'] = str_slug($input['name'], '-');
-
         if ($film = Film::create($input)) {
             $film->genres()->attach($genreId);
 
@@ -81,7 +80,18 @@ class FilmController extends Controller
      */
     public function show($slug)
     {
-        //
+        $film = Film::where('slug', $slug);
+        if ($film) {
+            return response()->json([
+                'success' => true,
+                'data'    => $film,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Sorry, the film requested does\'nt seem to exist',
+        ], 401);
     }
 
     /**
