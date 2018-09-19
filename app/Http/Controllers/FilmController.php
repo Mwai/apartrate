@@ -45,7 +45,29 @@ class FilmController extends Controller
      */
     public function store(FilmValidationRequest $request)
     {
+        //process and upload the image
+        $input = $request->all();
+        $image = $request->file('photo');
+        $input['photo'] = time() . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $input['photo']);
+        //remove the genre id from the input
+        $genreId = $input['genre'];
+        unset($input['genre']);
+        
+        if ($film = Film::create($input)) {
+            $film->genres()->attach($genreId);
 
+            return response()->json([
+                'success' => true,
+                'data'    => $film,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred. Please try again',
+        ], 500);
     }
 
     /**
