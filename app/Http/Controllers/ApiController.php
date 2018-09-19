@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationRequest;
 use App\User;
 use Illuminate\Http\Request;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class ApiController extends Controller
 {
@@ -13,6 +15,7 @@ class ApiController extends Controller
     public function register(RegistrationRequest $request)
     {
         $user = new User();
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
