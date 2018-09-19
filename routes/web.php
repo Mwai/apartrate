@@ -11,6 +11,12 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('films');
 });
+Route::get('to/films', function () {
+    return redirect('films');
+});
+Route::get('films', 'FilmController@indexPage');
