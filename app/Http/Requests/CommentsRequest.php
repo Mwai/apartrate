@@ -27,9 +27,11 @@ class CommentsRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required|string'
+            'comment' => 'required|string',
+            'film_id' => ['required', 'exists:film,id'],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         $response = new JsonResponse([
