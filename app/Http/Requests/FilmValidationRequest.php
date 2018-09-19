@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class FilmValidationRequest extends FormRequest
 {
@@ -32,5 +35,13 @@ class FilmValidationRequest extends FormRequest
             'country'      => 'required|string',
             'photo'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        $response = new JsonResponse([
+            'success' => false,
+            'message' => $validator->errors(),
+        ], 422);
+        throw new ValidationException($validator, $response);
     }
 }
