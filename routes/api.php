@@ -18,4 +18,5 @@ Route::post('register', 'ApiController@register');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'ApiController@logout');
+    Route::resource('films', 'FilmController');
 });
