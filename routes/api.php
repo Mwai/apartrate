@@ -21,4 +21,5 @@ Route::get('to/films', function () {
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'ApiController@logout');
     Route::post('films/{slug}', 'FilmController@show');
+    Route::post('films', 'FilmController@store');
 });
