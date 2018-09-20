@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Film;
 use App\Http\Requests\FilmValidationRequest;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use JWTAuth;
@@ -153,9 +154,9 @@ class FilmController extends Controller
     {
         $url = app()->make('url')->to('/api/films/' . $slug);
         $results = $this->fetchApiResult($url);
-        $film = $results['data'];
+        $film = array_get($results, 'data');
         if (!count($film)) {
-            abort(404);
+            abort(404, array_get($results, 'message'));
         }
 
         return view('show', compact('film'));
@@ -164,9 +165,14 @@ class FilmController extends Controller
     public function fetchApiResult($url)
     {
         $client = new Client();
-        $res = $client->request('GET', $url);
-        $body = $res->getBody();
-        $content = $body->getContents();
+        try {
+            $res = $client->request('GET', $url);
+            $body = $res->getBody();
+            $content = $body->getContents();
+        } catch (BadResponseException $ex) {
+            $response = $ex->getResponse();
+            $content = (string) $response->getBody();
+        }
 
         return json_decode($content, true);
     }
