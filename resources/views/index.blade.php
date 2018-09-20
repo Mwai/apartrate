@@ -36,7 +36,7 @@
                         <td>{{str_limit($film['description'], 15)}}</td>
                         <td>{{$film['release_date']}}</td>
                         <td>{{$film['rating']}}</td>
-                        <td>{{$film['ticket_price']}}</td>
+                        <td>{{number_format($film['ticket_price'])}}</td>
                         <td>{{$film['country']}}</td>
                     @endforeach
                 </tr>
