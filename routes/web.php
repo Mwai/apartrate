@@ -20,3 +20,4 @@ Route::get('to/films', function () {
     return redirect('films');
 });
 Route::get('films', 'FilmController@indexPage');
+Route::get('films/{slug}', 'FilmController@showPage');
