@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Film;
 use App\Http\Requests\FilmValidationRequest;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use JWTAuth;
 
 class FilmController extends Controller
@@ -12,7 +14,7 @@ class FilmController extends Controller
 
     public function index()
     {
-        $films = Film::with('genres')->paginate(10);
+        $films = Film::with('genres')->get();
 
         return response()->json([
             'success' => true,
@@ -74,7 +76,7 @@ class FilmController extends Controller
      */
     public function show($slug)
     {
-        $film = Film::where('slug', $slug);
+        $film = Film::where('slug', $slug)->first();
         if ($film) {
             return response()->json([
                 'success' => true,
@@ -123,5 +125,36 @@ class FilmController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function indexPage()
+    {
+
+        $url = app()->make('url')->to('/api/films');
+        $results = $this->fetchApiResult($url);
+        $items = $results['data'];
+        //paginate data
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 1;
+        $currentItems = array_slice($items, $perPage * ($currentPage - 1), $perPage);
+        $paginator = new LengthAwarePaginator($currentItems, count($items), $perPage, $currentPage);
+        $films = $paginator->appends('filter', request('filter'));
+        $films->setPath(request()->url());
+        return view('index', compact('films'));
+    }
+
+    public function fetchApiResult($url)
+    {
+        $client = new Client();
+        $res = $client->request('GET', $url);
+        $body = $res->getBody();
+        $content = $body->getContents();
+
+        return json_decode($content, true);
     }
 }
