@@ -59,6 +59,44 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-5 text-center">
+            <p class="font-weight-bold">Comments</p>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+        @foreach($film['comments'] as $comment)
+            <div class="card col-sm-7">
+                <div class="row justify-content-start p-2">
+                    <div class="col text-center pt-2">
+                        <span class="avatar">
+                            {{str_limit($comment['user']['name'], 1, '')}}
+                        </span>
+                        <p class="font-weight-light mb-0 pt-1">
+                            <small>{{$comment['user']['name']}}</small>
+                        </p>
+                    </div>
+                    <div class="col-10">
+                        <p>
+                            {{$comment['comment']}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
     </div>
+    <style>
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 7px 10px;
+            background-color: #6babe0;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
 @endsection
