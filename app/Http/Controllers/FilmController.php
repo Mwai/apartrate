@@ -77,7 +77,7 @@ class FilmController extends Controller
      */
     public function show($slug)
     {
-        $film = Film::where('slug', $slug)->with('genres', 'comments')->first();
+        $film = Film::where('slug', $slug)->with('genres', 'comments', 'comments.user')->first();
         if ($film) {
             return response()->json([
                 'success' => true,
@@ -155,6 +155,7 @@ class FilmController extends Controller
         $url = app()->make('url')->to('/api/films/' . $slug);
         $results = $this->fetchApiResult($url);
         $film = array_get($results, 'data');
+
         if (!count($film)) {
             abort(404, array_get($results, 'message'));
         }
