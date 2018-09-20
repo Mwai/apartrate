@@ -76,7 +76,7 @@ class FilmController extends Controller
      */
     public function show($slug)
     {
-        $film = Film::where('slug', $slug)->first();
+        $film = Film::where('slug', $slug)->with('genres', 'comments')->first();
         if ($film) {
             return response()->json([
                 'success' => true,
@@ -145,7 +145,20 @@ class FilmController extends Controller
         $paginator = new LengthAwarePaginator($currentItems, count($items), $perPage, $currentPage);
         $films = $paginator->appends('filter', request('filter'));
         $films->setPath(request()->url());
+
         return view('index', compact('films'));
+    }
+
+    public function showPage($slug)
+    {
+        $url = app()->make('url')->to('/api/films/' . $slug);
+        $results = $this->fetchApiResult($url);
+        $film = $results['data'];
+        if (!count($film)) {
+            abort(404);
+        }
+
+        return view('show', compact('film'));
     }
 
     public function fetchApiResult($url)
