@@ -16,7 +16,7 @@ Route::post('login', 'ApiController@login');
 Route::post('register', 'ApiController@register');
 Route::get('films', 'FilmController@index');
 Route::get('to/films', function () {
-    return redirect('films');
+    return redirect('/api/films');
 });
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'ApiController@logout');
