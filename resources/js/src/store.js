@@ -15,7 +15,8 @@ const state = {
     loading: false,
     authenticated: !!jwt,
     films: [],
-    error: false
+    error: false,
+    currentFilm: {}
 }
 export default new Vuex.Store({
     state,
