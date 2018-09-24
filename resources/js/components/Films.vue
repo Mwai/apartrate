@@ -2,11 +2,11 @@
     <div>
         <div class="col-xs-12">
             <div class="col-xs-8 offset-xs-2 text-right">
-                <a href="/films/create" class="btn btn-outline-info btn-sm">
+                <router-link to="/films/create" class="btn btn-outline-info btn-sm">
                     Add new film
-                </a>
+                </router-link>
             </div>
-            <div class="card col-xs-12 col-sm-8 offset-sm-2 mt-3">
+            <div class="card col-sm-12 mt-3">
 
                 <table class="table">
                     <thead>
@@ -21,66 +21,52 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <!--@foreach($films as $film)-->
-                        <!--<td>-->
-                            <!--<img width="50" src="{{$film['photo']}}">-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<a href="/films/{{$film['slug']}}">-->
-                                <!--{{$film['name']}}-->
-                            <!--</a>-->
-                        <!--</td>-->
-                        <!--<td>{{str_limit($film['description'], 15)}}</td>-->
-                        <!--<td>{{$film['release_date']}}</td>-->
-                        <!--<td>{{$film['rating']}}</td>-->
-                        <!--<td>{{number_format($film['ticket_price'])}}</td>-->
-                        <!--<td>{{$film['country']}}</td>-->
-                        <!--@endforeach-->
+                    <tr v-for="film in getFilms.data">
+                        <td>
+                            <img width="50" :src="film.photo">
+                        </td>
+                        <td>
+                            <router-link :to="'/films/' + film.slug">
+                                {{film.name}}
+                            </router-link>
+                        </td>
+                        <td>{{limitStr(film.description)}}</td>
+                        <td>{{film.release_date}}</td>
+                        <td>{{film.rating}}</td>
+                        <td>$ {{film.ticket_price.toLocaleString()}}</td>
+                        <td>{{film.country}}</td>
                     </tr>
 
                     </tbody>
                 </table>
             </div>
-            <div class="col-xs-12 col-sm-8 offset-sm-2 mt-5">
-                <!--{{$films->links()}}-->
+            <div class="row mt-5 justify-content-center">
+                <pagination :data="getFilms" @pagination-change-page="getResults"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
-        data(){
-            return {
-                credentials: {
-                    username: '',
-                    password: ''
-                },
-                error: ''
-            }
+        mounted() {
+            this.getResults();
         },
         methods: {
-            submit(){
-                let inst = this
-                let credentials = {
-                    username: inst.credentials.username,
-                    password: inst.credentials.password
-                }
+            getResults(page = 1) {
+                this.$store.dispatch('fetchFilms', {page})
+            },
+            limitStr(str) {
+                return str.length > 20 ? str.substring(0, 20) + '...' : str;
+            },
 
-                inst.$validator.validateAll().then(function(success) {
-                    if (!success){
-                        return
-                    }
-                    else{
-                    }
-                })
-
-
-            }
         },
-        mounted: function () {
-
+        computed: {
+            ...mapGetters([
+                'getFilms'
+            ])
         }
     }
 </script>
