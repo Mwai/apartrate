@@ -7,3 +7,6 @@ export const getFilms = (state) => {
 export const getError = (state) => {
     return state.error
 }
+export const getLoader = (state) => {
+    return state.loading
+}

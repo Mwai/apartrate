@@ -11,4 +11,7 @@ export default {
     [types.ERROR_MESSAGE](state, {list}) {
         state.error = list
     },
+    [types.LOADING](state) {
+        state.loading = !state.loading
+    },
 }
