@@ -24,3 +24,15 @@ export const fetchFilms = ({commit}, {page}) => {
         console.log(error)
     })
 }
+export const fetchFilmFromSlug = ({commit}, {slug}) => {
+    commit(types.LOADING)
+    request.get('/api/films/' + slug).then((response) => {
+        commit(types.SET_CURRENT_FILM, {list: response.data.data})
+        commit(types.LOADING)
+    }).catch(error => {
+        let errorMessage = error.request + ':Error loading films'
+        commit(types.ERROR_MESSAGE, errorMessage)
+        commit(types.LOADING)
+        console.log(error)
+    })
+}
