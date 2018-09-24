@@ -31,7 +31,7 @@
                             </router-link>
                         </td>
                         <td>{{limitStr(film.description)}}</td>
-                        <td>{{film.release_date}}</td>
+                        <td>{{formatDate(film.release_date)}}</td>
                         <td>{{film.rating}}</td>
                         <td>$ {{film.ticket_price.toLocaleString()}}</td>
                         <td>{{film.country}}</td>
@@ -41,7 +41,8 @@
                 </table>
             </div>
             <div class="row mt-5 justify-content-center">
-                <pagination v-if="getFilms.data !== undefined && getFilms.data.length" :data="getFilms" @pagination-change-page="getResults"/>
+                <pagination v-if="getFilms.data !== undefined && getFilms.data.length" :data="getFilms"
+                            @pagination-change-page="getResults"/>
             </div>
         </div>
     </div>
@@ -49,6 +50,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import moment from 'moment'
 
     export default {
         mounted() {
@@ -61,6 +63,9 @@
             limitStr(str) {
                 return str.length > 20 ? str.substring(0, 20) + '...' : str;
             },
+            formatDate(date) {
+                return moment(date).format('LLLL')
+            }
 
         },
         computed: {

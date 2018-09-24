@@ -47,7 +47,7 @@
                                 </p>
                                 <p>
                                     <i class="fas fa-calendar-check"></i>
-                                    <small>{{film.release_date}}</small>
+                                    <small>{{formatDate(film.release_date)}}</small>
                                 </p>
                             </div>
                             <div class="col col-sm-12">
@@ -91,6 +91,7 @@
 </template>
 <script>
     import {mapGetters} from 'vuex'
+    import moment from 'moment'
 
     export default {
         props: {
@@ -108,6 +109,9 @@
             limitStr(str) {
                 return str.length > 1 ? str.substring(0, 1) : str;
             },
+            formatDate(date){
+                return moment(date).format('LLLL')
+            }
 
         },
         computed: {
