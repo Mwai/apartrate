@@ -8,4 +8,7 @@ export default {
     [types.SET_FILMS](state, {list}) {
         state.films = list
     },
+    [types.ERROR_MESSAGE](state, {list}) {
+        state.error = list
+    },
 }

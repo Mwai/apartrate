@@ -14,7 +14,8 @@ const state = {
     token_expiry: token_expiry,
     loading: false,
     authenticated: !!jwt,
-    films: []
+    films: [],
+    error: false
 }
 export default new Vuex.Store({
     state,

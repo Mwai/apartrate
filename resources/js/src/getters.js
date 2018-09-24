@@ -4,3 +4,6 @@ export const getLoggedInUser = (state) => {
 export const getFilms = (state) => {
     return state.films
 }
+export const getError = (state) => {
+    return state.error
+}
