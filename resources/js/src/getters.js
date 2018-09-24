@@ -10,3 +10,6 @@ export const getError = (state) => {
 export const getLoader = (state) => {
     return state.loading
 }
+export const getCurrentFilm = (state) => {
+    return state.currentFilm
+}

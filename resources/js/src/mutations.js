@@ -14,4 +14,7 @@ export default {
     [types.LOADING](state) {
         state.loading = !state.loading
     },
+    [types.SET_CURRENT_FILM](state, {list}) {
+        state.currentFilm = list
+    },
 }
