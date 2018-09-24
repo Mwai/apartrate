@@ -89,18 +89,6 @@
         </div>
     </div>
 </template>
-<style>
-    .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        padding: 7px 10px;
-        background-color: #6babe0;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-    }
-</style>
 <script>
     import {mapGetters} from 'vuex'
 
