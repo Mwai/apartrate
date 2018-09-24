@@ -1,7 +1,7 @@
 import axios from 'axios'
-import * as types from './mutation_types'
 import auth from './auth'
 import moment from 'moment'
+import store from './store'
 
 
 if (localStorage.getItem('auth_token')) {
