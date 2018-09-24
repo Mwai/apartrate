@@ -13,7 +13,7 @@ class FilmController extends Controller
 
     public function index()
     {
-        $films = Film::with('genres')->get();
+        $films = Film::with('genres')->paginate(1);
 
         return response()->json([
             'success' => true,
