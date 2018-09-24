@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +12,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('films');
-});
-Route::get('to/films', function () {
-    return redirect('films');
-});
-Route::get('films', 'FilmController@indexPage');
-Route::get('films/{slug}', 'FilmController@showPage');
+//Route::get('/', function () {
+//    return redirect('films');
+//});
+//Route::get('to/films', function () {
+//    return redirect('films');
+//});
+Route::get('/', 'FilmController@indexPage');
+//Route::get('films/{slug}', 'FilmController@showPage');
+//Route::post('login', 'AuthController@login');
+//Route::post('register', 'AuthController@login');
+//Route::post('logout', 'AuthController@login');
+//Route::post('comment', 'FilmController@addComment');
