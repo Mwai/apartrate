@@ -41,7 +41,7 @@
                 </table>
             </div>
             <div class="row mt-5 justify-content-center">
-                <pagination :data="getFilms" @pagination-change-page="getResults"/>
+                <pagination v-if="getFilms.data !== undefined && getFilms.data.length" :data="getFilms" @pagination-change-page="getResults"/>
             </div>
         </div>
     </div>
