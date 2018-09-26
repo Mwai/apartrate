@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -53,8 +54,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
-        'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
+        'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'jwt.refreshToken' => \Tymon\JWTAuth\Http\Middleware\RefreshToken::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
