@@ -155,10 +155,10 @@
                 this.$store.dispatch('fetchFilmFromSlug', {slug})
             },
             formatDate(date) {
-                return moment(date).format('LLLL')
+                return moment.utc(date).format('LLLL')
             },
             formatCommentDate(date) {
-                return moment(date).fromNow()
+                return moment.utc(date).fromNow()
             },
             setActionCard(action) {
                 this.action = action
