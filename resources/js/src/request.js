@@ -1,5 +1,4 @@
 import axios from 'axios'
-import auth from './auth'
 import store from './store'
 
 let instance = axios.create({
@@ -23,7 +22,7 @@ instance.interceptors.response.use((response) => {
     checkResponseToken(error.response)
     // Do something with response error
     if (error.response.status === 401) {
-        auth.logout()
+        store.actions.logoutUser()
     }
 })
 
