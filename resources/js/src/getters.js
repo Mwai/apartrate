@@ -13,3 +13,9 @@ export const getLoader = (state) => {
 export const getCurrentFilm = (state) => {
     return state.currentFilm
 }
+export const checkAuthentication = (state) => {
+    return state.authenticated
+}
+export const getToken = (state) => {
+    return state.token
+}
