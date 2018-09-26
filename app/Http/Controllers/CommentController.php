@@ -12,14 +12,15 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->user = JWTAuth::parseToken()->authenticate();
+        $token = JWTAuth::getToken();
+        $this->user = JWTAuth::authenticate($token);
     }
 
     public function store(CommentsRequest $request)
     {
         $input = $request->all();
-        $input['user_id'] = $this->user->id;
-        if ($comment = Comment::create($input)) {
+        $input['user_id'] = $input['user_id'] ?? $this->user->id;
+        if ($comment = Comment::create($input)->load('user')) {
             return response()->json([
                 'success' => true,
                 'message' => 'Comment uploaded successfully',
