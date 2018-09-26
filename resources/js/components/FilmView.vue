@@ -70,7 +70,7 @@
             <div class="row justify-content-center mt-2">
                 <div v-for="comment in film.comments" class="card col-sm-7 mb-2">
                     <div class="row justify-content-start p-2">
-                        <div class="col text-center pt-2">
+                        <div class="col-2 text-center pt-2">
                             <avatar inline :size="40" :username="comment.user.name"/>
                             <p class="font-weight-light mb-0 pt-1">
                                 <small>{{comment.user.name}}</small>
@@ -79,6 +79,11 @@
                         <div class="col-10">
                             <p>
                                 {{comment.comment}}
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-right mb-0 font-weight-light">
+                                <small>{{formatCommentDate(comment.created_at)}}</small>
                             </p>
                         </div>
                     </div>
@@ -151,6 +156,9 @@
             },
             formatDate(date) {
                 return moment(date).format('LLLL')
+            },
+            formatCommentDate(date) {
+                return moment(date).fromNow()
             },
             setActionCard(action) {
                 this.action = action
