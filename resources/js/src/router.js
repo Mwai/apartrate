@@ -10,9 +10,11 @@ Vue.component(Films)
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home,
-        meta: {title: 'Home'}
+        redirect: { name: 'films' }
+    },
+    {
+        path: '/to/films',
+        redirect: { name: 'films' }
     },
     {
         path: '/films',
