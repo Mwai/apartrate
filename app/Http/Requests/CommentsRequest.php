@@ -16,7 +16,7 @@ class CommentsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class CommentsRequest extends FormRequest
     {
         return [
             'comment' => 'required|string',
-            'film_id' => ['required', 'exists:film,id'],
+            'film_id' => ['required', 'exists:films,id'],
         ];
     }
 
