@@ -68,12 +68,10 @@
                 </div>
             </div>
             <div class="row justify-content-center mt-2">
-                <div v-for="comment in film.comments" class="card col-sm-7">
+                <div v-for="comment in film.comments" class="card col-sm-7 mb-2">
                     <div class="row justify-content-start p-2">
                         <div class="col text-center pt-2">
-                        <span class="avatar">
-                            {{limitStr(comment.user.name)}}
-                        </span>
+                            <avatar inline :size="40" :username="comment.user.name"/>
                             <p class="font-weight-light mb-0 pt-1">
                                 <small>{{comment.user.name}}</small>
                             </p>
@@ -86,17 +84,62 @@
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-6 mt-3">
+                    <div class="col-sm-12" v-if="checkAuthentication">
+                        <Comment v-bind:filmId="film.id"/>
+                    </div>
+                    <div v-else class="col-sm-12">
+                        <div class="col-sm-12 text-center">
+                            <p>
+                                Login or Sign up to post a comment.
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 text-center">
+                                <button class="btn btn-outline-primary btn-sm" @click="setActionCard('login')">Login
+                                </button>
+                            </div>
+                            <div class="col-sm-6 text-center">
+                                <button class="btn btn-outline-success btn-sm" @click="setActionCard('register')">Sign
+                                    up
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <transition>
+                                <Login v-if="action === 'login'" key="login"/>
+                                <Register v-if="action === 'register'" key="register"/>
+                            </transition>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 <script>
     import {mapGetters} from 'vuex'
     import moment from 'moment'
+    import Login from './Login'
+    import Register from './Register'
+    import Comment from './Comment'
 
     export default {
         props: {
             slug: {
                 type: String,
+            }
+        },
+        components: {
+            Login,
+            Register,
+            Comment
+        },
+        data() {
+            return {
+                action: ''
             }
         },
         mounted() {
@@ -106,17 +149,17 @@
             getFilm(slug) {
                 this.$store.dispatch('fetchFilmFromSlug', {slug})
             },
-            limitStr(str) {
-                return str.length > 1 ? str.substring(0, 1) : str;
-            },
-            formatDate(date){
+            formatDate(date) {
                 return moment(date).format('LLLL')
+            },
+            setActionCard(action) {
+                this.action = action
             }
-
         },
         computed: {
             ...mapGetters([
-                'getCurrentFilm'
+                'getCurrentFilm',
+                'checkAuthentication'
             ]),
             film: function () {
                 return this.getCurrentFilm
