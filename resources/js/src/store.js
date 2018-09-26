@@ -7,7 +7,8 @@ import mutations from './mutations'
 Vue.use(Vuex)
 let jwt = localStorage.getItem('auth_token'),
     user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
-    token_expiry = localStorage.getItem('token_expiry') ? localStorage.getItem('token_expiry') : null
+    token_expiry = localStorage.getItem('token_expiry') ? localStorage.getItem('token_expiry') : null,
+    token = localStorage.getItem('auth_token') ? localStorage.getItem('auth_token') : null
 
 const state = {
     user: user,
@@ -16,7 +17,8 @@ const state = {
     authenticated: !!jwt,
     films: [],
     error: false,
-    currentFilm: {}
+    currentFilm: {},
+    token: token
 }
 export default new Vuex.Store({
     state,
