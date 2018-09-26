@@ -20,7 +20,7 @@ Route::get('to/films', function () {
 });
 
 Route::get('films/{slug}', 'FilmController@show');
-Route::group(['middleware' => 'auth.jwt'], function () {
+Route::group(['middleware' => ['jwt.auth', 'jwt.refreshToken']], function () {
     Route::get('logout', 'ApiController@logout');
     Route::post('films', 'FilmController@store');
     Route::post('comment', 'CommentController@store');
