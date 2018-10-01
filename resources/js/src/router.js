@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Films from '../components/Films'
 import Home from '../components/Home'
 import FilmView from '../components/FilmView'
+import CreateFilm from '../components/CreateFilm'
 
 Vue.use(VueRouter)
 Vue.component('Home', Home)
@@ -21,6 +22,12 @@ const routes = [
         name: 'films',
         component: Films,
         meta: {title: 'Films'}
+    },
+    {
+        path: '/films/create',
+        name: 'create-film',
+        component: CreateFilm,
+        meta: {title: 'Create Film'}
     },
     {
         path: '/films/:slug',
