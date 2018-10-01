@@ -191,7 +191,7 @@ return [
     | If you do not want or need this functionality, then set this to false.
     |
     */
-    'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', false),
+    'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', true),
     /*
     | -------------------------------------------------------------------------
     | Blacklist Grace Period
