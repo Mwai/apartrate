@@ -4,9 +4,12 @@ import store from './src/store'
 import App from './components/App'
 import Pagination from 'laravel-vue-pagination'
 import Avatar from 'vue-avatar'
+import VeeValidate from 'vee-validate'
 
+Vue.use(VeeValidate)
 Vue.component('pagination', Pagination);
 Vue.component('avatar', Avatar);
+
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
     next()
