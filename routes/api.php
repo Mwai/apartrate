@@ -18,10 +18,10 @@ Route::get('films', 'FilmController@index');
 Route::get('to/films', function () {
     return redirect('/api/films');
 });
-
+Route::get('genres', 'FilmController@fetchGenres');
 Route::get('films/{slug}', 'FilmController@show');
+Route::post('films', 'FilmController@store');
+Route::get('logout', 'ApiController@logout');
 Route::group(['middleware' => ['jwt.auth', 'jwt.refreshToken']], function () {
-    Route::get('logout', 'ApiController@logout');
-    Route::post('films', 'FilmController@store');
     Route::post('comment', 'CommentController@store');
 });
