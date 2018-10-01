@@ -18,7 +18,9 @@ const state = {
     films: [],
     error: false,
     currentFilm: {},
-    token: token
+    token: token,
+    genres: [],
+    countries: []
 }
 export default new Vuex.Store({
     state,
