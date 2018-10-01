@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 //Route::get('to/films', function () {
 //    return redirect('films');
 //});
-Route::get('/', 'FilmController@indexPage');
+Route::get('/{vue_capture?}', function () {
+    return view('layout');
+})->where('vue_capture', '^(?!storage).*$');
 //Route::get('films/{slug}', 'FilmController@showPage');
 //Route::post('login', 'AuthController@login');
 //Route::post('register', 'AuthController@login');
