@@ -19,3 +19,9 @@ export const checkAuthentication = (state) => {
 export const getToken = (state) => {
     return state.token
 }
+export const allGenres = (state) => {
+    return state.genres
+}
+export const allCountries = (state) => {
+    return state.countries
+}

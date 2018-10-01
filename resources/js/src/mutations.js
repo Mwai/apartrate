@@ -37,4 +37,10 @@ export default {
         localStorage.setItem('auth_token', list)
         Vue.set(state, 'token', list)
     },
+    [types.SET_GENRES](state, {list}) {
+        Vue.set(state, 'genres', list)
+    },
+    [types.SET_COUNTRIES](state, {list}) {
+        Vue.set(state, 'countries', list)
+    },
 }
