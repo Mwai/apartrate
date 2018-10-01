@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Film;
+use App\Genre;
 use App\Http\Requests\FilmValidationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -38,17 +39,18 @@ class FilmController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(FilmValidationRequest $request)
+    public function store(Request $request)
     {
         //process and upload the image
         $input = $request->all();
+        dd($input);
         $image = $request->file('photo');
         $input['photo'] = time() . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('/images');
         $image->move($destinationPath, $input['photo']);
         //remove the genre id from the input
-        $genreId = $input['genre'];
-        unset($input['genre']);
+        $genreId = $input['genres'];
+        unset($input['genres']);
         //set the slug
         $input['slug'] = str_slug($input['name'], '-');
         if ($film = Film::create($input)) {
@@ -158,5 +160,15 @@ class FilmController extends Controller
         }
 
         return view('show', compact('film'));
+    }
+
+    public function fetchGenres()
+    {
+        $genres = Genre::all()->toArray();
+
+        return response()->json([
+            'success' => true,
+            'data'    => $genres,
+        ], 200);
     }
 }
