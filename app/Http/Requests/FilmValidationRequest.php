@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FilmValidationRequest extends FormRequest
 {
@@ -27,7 +26,7 @@ class FilmValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => 'required|string|unique',
+            'name'         => 'required|string|unique:films',
             'description'  => 'required|string',
             'release_date' => 'required|date',
             'rating'       => 'required|min:1|max:5',
@@ -38,10 +37,10 @@ class FilmValidationRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator)
     {
-        $response = new JsonResponse([
+        $response = [
             'success' => false,
-            'message' => $validator->errors(),
-        ], 422);
-        throw new ValidationException($validator, $response);
+            'message' => $validator->errors()
+        ];
+        throw new HttpResponseException(response()->json($response, 422));
     }
 }
