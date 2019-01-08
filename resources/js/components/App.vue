@@ -19,6 +19,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import * as types from '../src/mutation_types'
 
     export default {
         mounted() {
@@ -36,7 +37,7 @@
                 this.$store.dispatch('logoutUser')
 
             },
-            errorNotification(error) {
+            errorNotification: function (error) {
                 this.$notify({
                     group: 'alerts',
                     title: 'Error!',
@@ -44,6 +45,7 @@
                     type: 'error',
                     duration: 10000
                 });
+                this.$store.commit(types.LOADING, false)
             }
         },
         watch: {
