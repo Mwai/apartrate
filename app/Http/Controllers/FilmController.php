@@ -33,26 +33,23 @@ class FilmController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @param FilmValidationRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(FilmValidationRequest $request)
     {
         //process and upload the image
         $input = $request->all();
-        dd($input);
         $image = $request->file('photo');
-        $input['photo'] = time() . '.' . $image->getClientOriginalExtension();
+        $input['photo'] = '/images/' . time() . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('/images');
         $image->move($destinationPath, $input['photo']);
         //remove the genre id from the input
-        $genreId = $input['genres'];
+        $genreId = json_decode($input['genres']);
         unset($input['genres']);
         //set the slug
         $input['slug'] = str_slug($input['name'], '-');
+
         if ($film = Film::create($input)) {
             $film->genres()->attach($genreId);
 
