@@ -13,11 +13,11 @@ export default {
     [types.SET_FILMS](state, {list}) {
         state.films = list
     },
-    [types.ERROR_MESSAGE](state, {list}) {
+    [types.ERROR_MESSAGE](state, list) {
         state.error = list
     },
-    [types.LOADING](state) {
-        state.loading = !state.loading
+    [types.LOADING](state, currentState = null) {
+        state.loading = currentState !== null ? currentState : !state.loading
     },
     [types.SET_CURRENT_FILM](state, {list}) {
         state.currentFilm = list
