@@ -1746,6 +1746,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _src_mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/mutation_types */ "./resources/js/src/mutation_types.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1770,6 +1771,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -1787,6 +1789,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: 'error',
         duration: 10000
       });
+      this.$store.commit(_src_mutation_types__WEBPACK_IMPORTED_MODULE_1__["LOADING"], false);
     }
   },
   watch: {
@@ -50193,7 +50196,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _defineProperty(_types$SET_USER$types, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["ERROR_MESSAGE"], function (state, list) {
   state.error = list;
 }), _defineProperty(_types$SET_USER$types, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["LOADING"], function (state) {
-  state.loading = !state.loading;
+  var currentState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  state.loading = currentState !== null ? currentState : !state.loading;
 }), _defineProperty(_types$SET_USER$types, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENT_FILM"], function (state, _ref3) {
   var list = _ref3.list;
   state.currentFilm = list;
