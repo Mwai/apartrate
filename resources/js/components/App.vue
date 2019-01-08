@@ -13,6 +13,7 @@
             <div class="lds-dual-ring" v-if="getLoader"></div>
             <router-view :key="$route.fullPath" class="view col-sm-12"/>
         </div>
+        <notifications group="alerts" position="top left"></notifications>
     </div>
 </template>
 
@@ -34,6 +35,28 @@
             logoutUser() {
                 this.$store.dispatch('logoutUser')
 
+            },
+            errorNotification(error) {
+                this.$notify({
+                    group: 'alerts',
+                    title: 'Error!',
+                    text: error,
+                    type: 'error',
+                    duration: 10000
+                });
+            }
+        },
+        watch: {
+            '$store.state.error': function (newError) {
+                let instance = this
+                if (typeof newError === 'string') {
+                    instance.errorNotification(newError)
+
+                } else {
+                    Object.keys(newError).forEach(function (key) {
+                        instance.errorNotification(newError[key][0])
+                    });
+                }
             }
         }
     }
