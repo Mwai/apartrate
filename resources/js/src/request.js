@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from './store'
+import * as types from "./mutation_types";
 
 let instance = axios.create({
     baseURL: '/'
@@ -18,13 +19,16 @@ instance.interceptors.request.use(
 instance.interceptors.response.use((response) => {
     checkResponseToken(response)
     return response
-}, function (error) {
+}, errorResponseHandler)
+
+function errorResponseHandler(error) {
     checkResponseToken(error.response)
     // Do something with response error
+    store.commit(types.ERROR_MESSAGE, error.response.data.message)
     if (error.response.status === 401) {
         store.actions.logoutUser()
     }
-})
+}
 
 export const checkResponseToken = (response) => {
     const newToken = response.headers.authorization
