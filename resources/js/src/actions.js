@@ -1,6 +1,7 @@
 import * as types from './mutation_types'
 import request from './request'
 import router from "./router";
+import store from "./store";
 
 export const loginUser = ({commit}, {data}) => {
     commit(types.LOADING)
@@ -108,17 +109,16 @@ export const fetchGenres = ({commit}) => {
         console.log(error)
     })
 }
-export const postFilm = ({commit}, {data}) => {
+export const postFilm = ({commit}, data) => {
     commit(types.LOADING)
-    console.log(data)
-    request.post('/api/films/', data).then((response) => {
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    request.post('/api/films/', data, config).then((response) => {
         let film = response.data.data
         commit(types.LOADING)
         router.push('/films/' + film.slug)
-    }).catch(error => {
-        let errorMessage = error.request + ':Could not post comment'
-        commit(types.ERROR_MESSAGE, errorMessage)
-        commit(types.LOADING)
-        console.log(error)
-    })
+    }).catch(error => {})
 }
