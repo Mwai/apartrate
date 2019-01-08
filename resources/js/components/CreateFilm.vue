@@ -32,13 +32,13 @@
                                        type="date"
                                        class="form-control" id="releaseDate"
                                        placeholder="Enter Name" @change="formatDate" name="release-date">
-                                <span v-show="errors.has('releaseDate')" class="text-danger font-weight-light">
+                                <span v-show="errors.has('release-date')" class="text-danger font-weight-light ">
                                     {{ errors.first('release-date') }}
                                 </span>
                             </div>
                             <div class="form-group">
                                 <label for="rating">Rating</label>
-                                <input v-validate="'required|min:1|max:5'" data-vv-validate-on="change|blur"
+                                <input v-validate="'required|min_value:1|max_value:5'" data-vv-validate-on="change|blur"
                                        v-model="data.rating" type="number" class="form-control" id="rating"
                                        placeholder="Enter rating" min="1" max="5" name="rating">
                                 <span v-show="errors.has('rating')" class="text-danger font-weight-light">
@@ -109,9 +109,9 @@
                     rating: '',
                     ticket_price: '',
                     country: '',
-                    genres: [],
-                    photo: ''
+                    genres: []
                 },
+                photo: '',
                 release_date: '',
                 genres: []
 
@@ -121,23 +121,37 @@
             this.$store.dispatch('fetchGenres')
         },
         methods: {
-            createFilm() {
+            createFilm: function () {
                 this.$validator.validate().then(result => {
                     if (result) {
-                       let data = this.data
-                        const formData = new FormData()
-                        formData.append('photo', this.data.photo, this.data.photo.name)
-                        this.$store.dispatch('postFilm', {formData})
+                        let data = this.data,
+                            formData = new FormData()
+                        formData.append('photo', this.photo);
+
+                        for (let key in data) {
+                            if (key === 'country') {
+                                formData.append(key, data[key].value);
+                            } else if (key === 'genres') {
+                                let genresArray = []
+                                data[key].forEach(function (e) {
+                                    genresArray.push(e.value)
+                                    formData.append(key, JSON.stringify(genresArray))
+                                })
+                            } else {
+                                formData.append(key, data[key]);
+                            }
+                        }
+                        this.$store.dispatch('postFilm', formData)
                     }
                 });
             },
-            handleFileChange() {
-                this.data.photo = this.$refs.file.files[0]
+            handleFileChange: function () {
+                this.photo = this.$refs.file.files[0]
             },
-            formatDate() {
+            formatDate: function () {
                 this.data.release_date = moment.utc(this.release_date).format('YYYY-MM-DD')
             },
-            formatGenreData() {
+            formatGenreData: function () {
                 let genres = []
                 this.genres.forEach(function (genre) {
                     genres.push(genre.value)
